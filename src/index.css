@@ -15,4 +15,8 @@ code {
 /* Global Color Values */
 :root {
   --primary: #09357B;
+  --red: #F50057;
+  --yellow: #FFCA28;
+  --blue: #2196F3;
+  --purple: #0D47A1;
 }

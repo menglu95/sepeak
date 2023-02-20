@@ -1,19 +1,22 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, FC } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Loading } from '../components';
+import { AppLayout } from '../layout';
 
 const Home = lazy(() => import('../pages/Home'));
 const Detail = lazy(() => import('../pages/Detail'));
 
-const Routers = () => {
+const Routers: FC = () => {
   return (
     <Router>
-      <Suspense fallback={<Loading />}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/detail" element={<Detail />} />
-        </Routes>
-      </Suspense>
+      <AppLayout>
+        <Suspense fallback={<Loading />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/detail" element={<Detail />} />
+          </Routes>
+        </Suspense>
+      </AppLayout>
     </Router>
   )
 };
