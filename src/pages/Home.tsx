@@ -1,19 +1,18 @@
 import React, { FC } from 'react';
 import { Loading, NewsCard } from '../components';
 import styled from 'styled-components';
-import { useApiGet, TApiResponse } from '../hooks/useApiHook';
+import { sportNewsApi } from '../apis';
+import { TNewsDataType } from '../common';
 
 const Home: FC = () => {
-  const data: TApiResponse = useApiGet(
-    'https://content.guardianapis.com/search?section=sport&page-size=2&use-date=published&order-by=newest&show-fields=headline%2Cthumbnail%2Cbody%2CbodyText&show-elements=all&api-key=347d2d3b-47eb-46cc-a762-103c626745db'
-  );
+  const data: TNewsDataType[] = sportNewsApi.getLimit(2);
 
   // print the output
   console.log(data);
 
   return (
     <>
-      { data.loading ?
+      { data.length === 0 ?
         <Loading /> :
         <Container>
           <NewsCard
