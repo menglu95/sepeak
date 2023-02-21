@@ -41,7 +41,7 @@ const Container = styled.div<{ src: string, width: number, height: number }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: ${props => props.src !== '' ? 'flex-end' : 'space-between'};
   color: white;
   img {
     margin-top: 70px;
