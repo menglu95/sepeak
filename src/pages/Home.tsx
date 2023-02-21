@@ -1,20 +1,19 @@
-import React, { useState, useEffect, FC } from 'react';
+import React, { FC } from 'react';
 import { Loading, NewsCard } from '../components';
 import styled from 'styled-components';
+import { useApiGet, TApiResponse } from '../hooks/useApiHook';
 
 const Home: FC = () => {
-  const [loading, setLoading] = useState(false);
+  const data: TApiResponse = useApiGet(
+    'https://content.guardianapis.com/search?section=sport&page-size=2&use-date=published&order-by=newest&show-fields=headline%2Cthumbnail%2Cbody%2CbodyText&show-elements=all&api-key=347d2d3b-47eb-46cc-a762-103c626745db'
+  );
 
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
+  // print the output
+  console.log(data);
 
   return (
     <>
-      { loading ?
+      { data.loading ?
         <Loading /> :
         <Container>
           <NewsCard
