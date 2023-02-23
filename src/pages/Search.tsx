@@ -2,20 +2,17 @@ import React, { FC } from 'react';
 import { Loading, NewsCard } from '../components';
 import styled from 'styled-components';
 import { newsApi } from '../apis';
-import { TNewsDataType } from '../common';
+import { TNewsData } from '../common';
 
 const Search: FC = () => {
-  const data: TNewsDataType[] = newsApi.getData('news', 12);
-
-  // print the output
-  console.log(data);
+  const data: TNewsData[] = newsApi.getData('news', 12);
 
   return (
     <>
       { data.length === 0 ?
         <Loading /> :
         <Container>
-          {data.map((news) => <NewsCard key={news.id} image={news.thumbnail} title={news.webTitle} type='Sports' body={news.bodyText} />)}
+          {data.map((news) => <NewsCard key={news.id} image={news.thumbnail} title={news.webTitle} type={news.sectionName} body={news.bodyText} />)}
         </Container>
       }
     </>

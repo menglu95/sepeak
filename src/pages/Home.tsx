@@ -1,21 +1,32 @@
 import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Loading, NewsCard } from '../components';
 import styled from 'styled-components';
 import { newsApi } from '../apis';
-import { TNewsDataType } from '../common';
+import { TNewsData } from '../common';
 
 const Home: FC = () => {
-  const data: TNewsDataType[] = newsApi.getData('news', 12);
 
-  // print the output
-  console.log(data);
+  const data: TNewsData[] = newsApi.getData('sport', 12);
+  const navigate = useNavigate();
+  const navigateArticle = (newsData: TNewsData) => {
+    navigate('/article', { state: newsData });
+  }
 
   return (
     <>
       { data.length === 0 ?
         <Loading /> :
         <Container>
-          {data.map((news) => <NewsCard key={news.id} image={news.thumbnail} title={news.webTitle} type='Sports' body={news.bodyText} />)}
+          {data.map((news) =>
+            <NewsCard
+              key={news.id}
+              image={news.thumbnail}
+              title={news.webTitle}
+              type={news.sectionId}
+              body={news.bodyText}
+              onClick={() => { navigateArticle(news); }}
+            />)}
         </Container>
       }
     </>

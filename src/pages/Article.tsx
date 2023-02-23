@@ -1,21 +1,27 @@
 import React, { useState, useEffect, FC } from 'react';
+import { useLocation } from 'react-router-dom';
+import { TNewsData } from '../common';
 import { Loading } from '../components';
 
 const Article: FC = () => {
-  const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const [data, setData] = useState<TNewsData>();
 
   useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
+    setData(location.state);
+  }, [data]);
 
   return (
     <>
-      { loading ?
+      {data === undefined ?
         <Loading /> :
-        <div>Article Page</div>
+        <div>
+          <div>{data.webPublicationDate}</div>
+          <div>{data.webTitle}</div>
+          <div>{data.headline}</div>
+          <div>{data.body}</div>
+          <div>{data.thumbnail}</div>
+        </div>
       }
     </>
   )

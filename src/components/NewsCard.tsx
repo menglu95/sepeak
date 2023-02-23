@@ -8,7 +8,8 @@ interface INewsCard {
   body: string;
   width?: number;
   height?: number;
-  type: 'Sports' | 'Culture' | 'Lifestyle';
+  type: string;
+  onClick?: () => void;
 }
 
 const NewsCard: FC<INewsCard> = ({
@@ -18,9 +19,10 @@ const NewsCard: FC<INewsCard> = ({
   width = 350,
   height = 347,
   type,
+  onClick = undefined
 }) => {
   return (
-    <Container src={image} width={width} height={height}>
+    <Container src={image} width={width} height={height} onClick={onClick}>
       {image === '' && <img src={logo} alt="logo" width={238} height={89} />}
       <Description type={type}>
         <Title>{title}</Title>
@@ -47,15 +49,16 @@ const Container = styled.div<{ src: string, width: number, height: number }>`
     margin-top: 70px;
   }
   margin: 17px 15px 17px 15px;
+  cursor: pointer;
 `;
 
 const Description = styled.div<{ type: string }>`
   background-color: var(--primary);
   opacity: 0.9;
   height: 131px;
-  border-bottom: ${props => props.type === 'Sports' && '3px solid var(--red)'};
-  border-bottom: ${props => props.type === 'Culture' && '3px solid var(--yellow)'};
-  border-bottom: ${props => props.type === 'Lifestyle' && '3px solid var(--blue)'};
+  border-bottom: ${props => props.type === 'sport' && '3px solid var(--red)'};
+  border-bottom: ${props => props.type === 'culture' && '3px solid var(--yellow)'};
+  border-bottom: ${props => props.type === 'lifeandstyle' && '3px solid var(--blue)'};
 `;
 
 const Title = styled.div`

@@ -1,10 +1,11 @@
 import React from 'react';
 
-export type TNewsDataType = {
+export type TNewsData = {
   id: string;
   type: string;
   webTitle: string;
   webUrl: string;
+  sectionId: string;
   sectionName: string;
   webPublicationDate: string;
   headline: string;
@@ -14,11 +15,12 @@ export type TNewsDataType = {
 };
 
 export function convertResponseToData(res: any) {
-  const result: TNewsDataType = {
+  const result: TNewsData = {
     id: res.id,
     type: res.type,
     webTitle: res.webTitle,
     webUrl: res.webUrl,
+    sectionId: res.sectionId,
     sectionName: res.sectionName,
     webPublicationDate: res.webPublicationDate,
     headline: res.fields.headline,
