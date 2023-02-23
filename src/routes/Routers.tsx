@@ -4,7 +4,7 @@ import { Loading } from '../components';
 import { AppLayout } from '../layout';
 
 const Home = lazy(() => import('../pages/Home'));
-const Detail = lazy(() => import('../pages/Detail'));
+const Article = lazy(() => import('../pages/Article'));
 
 const Routers: FC = () => {
   return (
@@ -13,7 +13,7 @@ const Routers: FC = () => {
         <Suspense fallback={<Loading />}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/detail" element={<Detail />} />
+            <Route path="/article" element={<Article />} />
           </Routes>
         </Suspense>
       </AppLayout>

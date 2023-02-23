@@ -42,6 +42,7 @@ const Header = styled.div`
 
 const Main = styled.div`
   height: 100%;
+  overflow: auto;
 `;
 
 const Footer = styled.div`

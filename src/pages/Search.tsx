@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { newsApi } from '../apis';
 import { TNewsDataType } from '../common';
 
-const Home: FC = () => {
+const Search: FC = () => {
   const data: TNewsDataType[] = newsApi.getData('news', 12);
 
   // print the output
@@ -31,5 +31,5 @@ const Container = styled.div`
   flex-wrap: wrap;
 `;
 
-export { Home };
-export default Home;
+export { Search };
+export default Search;

@@ -1,1 +1,1 @@
-export * from './sportNewsApi';
+export * from './newsApi';

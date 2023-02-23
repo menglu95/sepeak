@@ -1,7 +1,7 @@
 import React, { useState, useEffect, FC } from 'react';
 import { Loading } from '../components';
 
-const Detail: FC = () => {
+const Article: FC = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -15,11 +15,11 @@ const Detail: FC = () => {
     <>
       { loading ?
         <Loading /> :
-        <div>Detail Page</div>
+        <div>Article Page</div>
       }
     </>
   )
 }
 
-export { Detail };
-export default Detail;
+export { Article };
+export default Article;

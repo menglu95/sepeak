@@ -46,6 +46,7 @@ const Container = styled.div<{ src: string, width: number, height: number }>`
   img {
     margin-top: 70px;
   }
+  margin: 17px 15px 17px 15px;
 `;
 
 const Description = styled.div<{ type: string }>`
@@ -59,6 +60,7 @@ const Description = styled.div<{ type: string }>`
 
 const Title = styled.div`
   width: 330px;
+  height: 58px;
   margin: 10px 10px 8px 10px;
   font-family: 'Georgia';
   font-style: normal;
@@ -66,11 +68,22 @@ const Title = styled.div`
   font-size: 20px;
   line-height: 29px;
   letter-spacing: 0.07px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const Content = styled.div`
   width: 327px;
+  height: 43px;
   margin: 0px 14px 15px 9px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.1px;
 `;
 
 export { NewsCard };
