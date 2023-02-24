@@ -15,6 +15,7 @@ code {
 /* Global Color Values */
 :root {
   --primary: #09357B;
+  --light-primary: #2153A3;
   --red: #F50057;
   --yellow: #FFCA28;
   --blue: #2196F3;

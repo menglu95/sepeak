@@ -8,7 +8,6 @@ import { TApiResponse, useApiGet } from '../hooks/useApiHook';
 const Home: FC = () => {
 
   const data: TApiResponse = useApiGet('', 'sport', 4);
-  console.log('data', data);
   const navigate = useNavigate();
   const navigateArticle = (newsData: TNewsData) => {
     navigate('/article', { state: newsData });

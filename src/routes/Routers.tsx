@@ -5,6 +5,7 @@ import { AppLayout } from '../layout';
 
 const Home = lazy(() => import('../pages/Home'));
 const Article = lazy(() => import('../pages/Article'));
+const Search = lazy(() => import('../pages/Search'));
 
 const Routers: FC = () => {
   return (
@@ -14,6 +15,7 @@ const Routers: FC = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/article" element={<Article />} />
+            <Route path="/search" element={<Search />} />
           </Routes>
         </Suspense>
       </AppLayout>

@@ -38,7 +38,7 @@ export const useApiGet = (query: string, section: string, n?: number, order?: 'n
 
   useEffect(() => {
     getAPIData();
-  }, []);
+  }, [query]);
 
   return { statusText, data, error, loading };
 };
