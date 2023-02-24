@@ -1,28 +1,35 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
+import { convertResponseToData, TNewsData } from '../common';
+import guardian from 'guardian-js';
+import { API_KEY } from '../constants';
 
 export type TApiResponse = {
-  status: number;
   statusText: string;
-  data: any;
+  data: TNewsData[];
   error: any;
   loading: boolean;
 };
 
-export const useApiGet = (url: string): TApiResponse => {
-  const [status, setStatus] = useState<number>(0);
+export const useApiGet = (query: string, section: string, n?: number, order?: 'newest' | 'oldest'): TApiResponse => {
   const [statusText, setStatusText] = useState<string>('');
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<TNewsData[]>([]);
   const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
+
+  const api = new guardian(API_KEY, false);
 
   const getAPIData = async () => {
     setLoading(true);
     try {
-      const apiResponse = await fetch(url);
-      const json = await apiResponse.json();
-      setStatus(apiResponse.status);
-      setStatusText(apiResponse.statusText);
-      setData(json);
+      const apiResponse = await api.content.search(query, {
+        section: section,
+        pageSize: n ? n : 12,
+        orderBy: order ? order : 'newest',
+        showFields: 'headline,thumbnail,body,bodyText',
+        showElements: 'all',
+      });
+      setStatusText(apiResponse.status);
+      setData(apiResponse.results.map((item: any)=> convertResponseToData(item)));
     } catch (err) {
       setError(err);
     }
@@ -33,5 +40,5 @@ export const useApiGet = (url: string): TApiResponse => {
     getAPIData();
   }, []);
 
-  return { status, statusText, data, error, loading };
+  return { statusText, data, error, loading };
 };

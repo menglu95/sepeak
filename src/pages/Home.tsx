@@ -2,12 +2,13 @@ import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Loading, NewsCard } from '../components';
 import styled from 'styled-components';
-import { newsApi } from '../apis';
 import { TNewsData } from '../common';
+import { TApiResponse, useApiGet } from '../hooks/useApiHook';
 
 const Home: FC = () => {
 
-  const data: TNewsData[] = newsApi.getData('sport', 12);
+  const data: TApiResponse = useApiGet('', 'sport', 4);
+  console.log('data', data);
   const navigate = useNavigate();
   const navigateArticle = (newsData: TNewsData) => {
     navigate('/article', { state: newsData });
@@ -15,10 +16,10 @@ const Home: FC = () => {
 
   return (
     <>
-      { data.length === 0 ?
+      { data.loading ?
         <Loading /> :
         <Container>
-          {data.map((news) =>
+          {data.data.map((news) =>
             <NewsCard
               key={news.id}
               image={news.thumbnail}
