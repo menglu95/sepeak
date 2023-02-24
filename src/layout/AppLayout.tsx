@@ -25,7 +25,7 @@ const AppLayout: FC<IAppLayout> = ({ children }) => {
   const onSubmit = (e: any) => {
     e.preventDefault();
     if (value !== '') {
-      navigate('/search', { state: value });
+      navigate('/search', { state: { query: value, order: 'newest' } });
       setExtend(false);
       setValue('');
     }

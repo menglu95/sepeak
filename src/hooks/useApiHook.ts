@@ -43,7 +43,7 @@ export const useApiGet = (
 
   useEffect(() => {
     getAPIData();
-  }, [query]);
+  }, [query, order]);
 
   return { statusText, data, error, loading };
 };
