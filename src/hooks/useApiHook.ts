@@ -10,7 +10,12 @@ export type TApiResponse = {
   loading: boolean;
 };
 
-export const useApiGet = (query: string, section: string, n?: number, order?: 'newest' | 'oldest'): TApiResponse => {
+export const useApiGet = (
+  query: string,
+  section: string,
+  n?: number,
+  order?: 'newest' | 'oldest'
+): TApiResponse => {
   const [statusText, setStatusText] = useState<string>('');
   const [data, setData] = useState<TNewsData[]>([]);
   const [error, setError] = useState<any>();
