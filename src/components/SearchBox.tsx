@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import searchIcon from '../assets/search-icon@2x.svg'
+import searchIcon from '../assets/search-icon@2x.svg';
 
 interface ISearchBox {
   placeholder: string;

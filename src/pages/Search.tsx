@@ -2,32 +2,37 @@ import React, { FC, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { TApiResponse, useApiGet } from '../hooks/useApiHook';
-import { TNewsData } from '../common';
+import { TNewsData, EDropOptions, navigateArticle } from '../common';
 import { Loading, NewsCard, Dropdown } from '../components';
 
 const Search: FC = () => {
-
   const [showDropList, setShowDropList] = useState<boolean>(false);
-  const [orderVale, setOrderValue] = useState<string>('Newest First');
+  const [orderValue, setOrderValue] = useState<string>(EDropOptions.NEWEST_FIRST);
   const location = useLocation();
   const { query, order } = location.state;
   const data: TApiResponse = useApiGet(query, 'sport', 15, order);
 
   const navigate = useNavigate();
-  const navigateArticle = (newsData: TNewsData) => {
-    navigate('/article', { state: newsData });
-  };
 
   const onShowDropList = () => {
     setShowDropList(!showDropList);
   };
 
-  const onChangeOder = (e: any) => {
+  const onChangeOrder = (e: any) => {
     setOrderValue(e.target.value);
-    if (e.target.value === 'Newest First') {
-      navigate('/search', { state: { query, order: 'newest' } });
-    } else {
-      navigate('/search', { state: { query, order: 'oldest' } });
+    setShowDropList(false);
+    switch (e.target.value) {
+      case EDropOptions.NEWEST_FIRST:
+        navigate('/search', { state: { query, order: 'newest' } });
+        break;
+      case EDropOptions.OLDEST_FIRST:
+        navigate('/search', { state: { query, order: 'oldest' } });
+        break;
+      case EDropOptions.MOST_POPULAR:
+        navigate('/search', { state: { query, order: 'relevance' } });
+        break;
+      default:
+        break;
     }
   };
 
@@ -41,8 +46,8 @@ const Search: FC = () => {
             <Dropdown
               onClick={onShowDropList}
               expand={showDropList}
-              onSelected={(e) => { onChangeOder(e); }}
-              value={orderVale}
+              onSelected={(e) => { onChangeOrder(e); }}
+              value={orderValue}
             />
           </Header>
           <Content>
@@ -51,7 +56,7 @@ const Search: FC = () => {
                 key={news.id}
                 image={news.thumbnail}
                 title={news.webTitle}
-                type={news.sectionName}
+                type={news.sectionId}
                 body={news.bodyText}
                 onClick={() => { navigateArticle(news); }}
               />)}

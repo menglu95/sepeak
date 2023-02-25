@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import { EDropOptions } from '../common';
 import dropIcon from '../assets/dropdown.svg';
 
 interface IDropdown {
@@ -22,8 +23,9 @@ const Dropdown: FC<IDropdown> = ({
         <img src={dropIcon} alt="dropdown icon" />
       </div>
       <Options expanded={expand}>
-        <input type="text" value="Newest First" readOnly onClick={onSelected} />
-        <input type="text" value="Oldest First" readOnly onClick={onSelected} />
+        <input type="text" value={EDropOptions.NEWEST_FIRST} readOnly onClick={onSelected} />
+        <input type="text" value={EDropOptions.OLDEST_FIRST} readOnly onClick={onSelected} />
+        <input type="text" value={EDropOptions.MOST_POPULAR} readOnly onClick={onSelected} />
       </Options>
     </Container>
   )

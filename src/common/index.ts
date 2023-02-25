@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export type TNewsData = {
   id: string;
@@ -30,3 +31,14 @@ export function convertResponseToData(res: any) {
   }
   return result;
 }
+
+export enum EDropOptions {
+  NEWEST_FIRST = 'Newest first',
+  OLDEST_FIRST = 'Oldest first',
+  MOST_POPULAR = 'Most popular'
+}
+
+export const navigateArticle = (newsData: TNewsData) => {
+  const navigate = useNavigate();
+  navigate('/article', { state: newsData });
+};

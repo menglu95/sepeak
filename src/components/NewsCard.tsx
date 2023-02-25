@@ -4,6 +4,7 @@ import logo from '../assets/Logo_White.png';
 
 interface INewsCard {
   image?: string;
+  isShownImage?: boolean;
   title: string;
   body: string;
   width?: number;
@@ -14,6 +15,7 @@ interface INewsCard {
 
 const NewsCard: FC<INewsCard> = ({
   image = '',
+  isShownImage = true,
   title,
   body,
   width = 350,
@@ -22,8 +24,8 @@ const NewsCard: FC<INewsCard> = ({
   onClick = undefined
 }) => {
   return (
-    <Container src={image} width={width} height={height} onClick={onClick}>
-      {image === '' && <img src={logo} alt="logo" width={238} height={89} />}
+    <Container src={image} shownImage={isShownImage} width={width} height={height} onClick={onClick}>
+      {isShownImage && image === '' && <img src={logo} alt="logo" width={238} height={89} />}
       <Description type={type}>
         <Title>{title}</Title>
         <Content>{body}</Content>
@@ -32,13 +34,13 @@ const NewsCard: FC<INewsCard> = ({
   )
 }
 
-const Container = styled.div<{ src: string, width: number, height: number }>`
+const Container = styled.div < { src: string, shownImage: boolean, width: number, height: number }>`
   ${props =>
-    props.src === '' ?
+    props.shownImage && (props.src === '' ?
       'background: var(--purple);' :
-      `background-image: url(${props.src});`}
+      `background-image: url(${props.src});`)}
   width: ${props => props.width}px;
-  height: ${props => props.height}px;
+  height: ${props => props.shownImage ? `${props.height}px` : 'fit-content'};
   background-size: 100% 100%;
   display: flex;
   flex-direction: column;
@@ -56,13 +58,14 @@ const Description = styled.div<{ type: string }>`
   background-color: var(--primary);
   opacity: 0.9;
   height: 131px;
+  width: 100%;
   border-bottom: ${props => props.type === 'sport' && '3px solid var(--red)'};
   border-bottom: ${props => props.type === 'culture' && '3px solid var(--yellow)'};
   border-bottom: ${props => props.type === 'lifeandstyle' && '3px solid var(--blue)'};
 `;
 
 const Title = styled.div`
-  width: 330px;
+  width: 98%;
   height: 58px;
   margin: 10px 10px 8px 10px;
   font-family: 'Georgia';
@@ -76,7 +79,7 @@ const Title = styled.div`
 `;
 
 const Content = styled.div`
-  width: 327px;
+  width: 95%;
   height: 43px;
   margin: 0px 14px 15px 9px;
   text-overflow: ellipsis;
