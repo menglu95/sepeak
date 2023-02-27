@@ -50,7 +50,7 @@ const Container = styled.div < { src: string, shownImage: boolean, width: number
   justify-content: ${props => props.src !== '' ? 'flex-end' : 'space-between'};
   color: white;
   img {
-    margin-top: 70px;
+    margin: auto;
   }
   margin: 17px 15px 17px 15px;
   cursor: pointer;
