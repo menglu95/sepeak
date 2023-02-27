@@ -25,7 +25,6 @@ const Dropdown: FC<IDropdown> = ({
       <Options expanded={expand}>
         <input type="text" value={EDropOptions.NEWEST_FIRST} readOnly onClick={onSelected} />
         <input type="text" value={EDropOptions.OLDEST_FIRST} readOnly onClick={onSelected} />
-        <input type="text" value={EDropOptions.MOST_POPULAR} readOnly onClick={onSelected} />
       </Options>
     </Container>
   )
