@@ -40,8 +40,9 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   & > div:first-child {
+    width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
   }
   cursor: pointer;
@@ -58,6 +59,7 @@ const Container = styled.div`
     &:focus-visible {
       outline: none;
     }
+    padding-left: 8px;
   }
 `;
 

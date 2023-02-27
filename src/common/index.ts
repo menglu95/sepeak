@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
 export type TNewsData = {
   id: string;
@@ -38,7 +37,9 @@ export enum EDropOptions {
   MOST_POPULAR = 'Most popular'
 }
 
-export const navigateArticle = (newsData: TNewsData) => {
-  const navigate = useNavigate();
-  navigate('/article', { state: newsData });
-};
+export function findMediaFromBodyText(bodyText: string) {
+  if (bodyText === '') return '';
+  const figureStartPos = bodyText.search('<figure');
+  const figureEndPos = bodyText.search('</figure>');
+  return bodyText.substring(figureStartPos, figureEndPos) + '</figure>';
+}

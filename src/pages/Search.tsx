@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { TApiResponse, useApiGet } from '../hooks/useApiHook';
-import { TNewsData, EDropOptions, navigateArticle } from '../common';
+import { TNewsData, EDropOptions } from '../common';
 import { Loading, NewsCard, Dropdown } from '../components';
 
 const Search: FC = () => {
@@ -36,8 +36,12 @@ const Search: FC = () => {
     }
   };
 
+  const navigateArticle = (newsData: TNewsData) => {
+    navigate('/article', { state: newsData });
+  };
+
   return (
-    <>
+    <Container>
       { data.loading ?
         <Loading /> :
         <>
@@ -63,7 +67,7 @@ const Search: FC = () => {
           </Content>
         </>
       }
-    </>
+    </Container>
   )
 }
 
@@ -71,7 +75,11 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 44px 165px 38px;
+  margin: 44px 15px 38px;
+  @media only screen and (max-width: 1060px) {
+    flex-direction: column;
+    margin: 44px 15px 18px;
+  }
 `;
 
 const Title = styled.div`
@@ -80,14 +88,30 @@ const Title = styled.div`
   font-weight: 700;
   font-size: 48px;
   line-height: 49px;
+  @media only screen and (max-width: 385px) {
+    font-size: 32px;
+  }
 `;
 
 const Content = styled.div`
-  margin: 0 150px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  @media only screen and (max-width: 1440px) {
+    justify-content: center;
+  }
   flex-wrap: wrap;
+`;
+
+const Container = styled.div`
+  margin: 0 auto;
+  width: calc(100% - 300px);
+  @media only screen and (min-width: 1440px) {
+    width: 1140px;
+  }
+  @media only screen and (max-width: 1060px) {
+    width: 100%;
+  }
 `;
 
 export { Search };

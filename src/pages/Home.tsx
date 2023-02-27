@@ -1,10 +1,17 @@
 import React, { FC, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Dropdown, Loading, NewsCard, SportsBundle } from '../components';
 import styled from 'styled-components';
-import { EDropOptions, TNewsData, navigateArticle } from '../common';
+import { EDropOptions, TNewsData } from '../common';
 import { TApiResponse, useApiGet } from '../hooks/useApiHook';
 
+type TTopStories = {
+  data: TNewsData[];
+  loaded: boolean;
+};
+
 const Home: FC = () => {
+  const navigate = useNavigate();
   const [order, setOrder] = useState<any>();
   const [orderValue, setOrderValue] = useState<string>(EDropOptions.NEWEST_FIRST);
   const [showDropList, setShowDropList] = useState<boolean>(false);
@@ -13,10 +20,10 @@ const Home: FC = () => {
   const newestCultureData: TApiResponse = useApiGet('', 'culture', 3, order);
   const newestLifeData: TApiResponse = useApiGet('', 'lifeandstyle', 1, order);
 
-  let topStoriesData: TNewsData[] = [];
-
+  const topStoriesData = { loaded: false } as TTopStories;
   if (newestSportData.statusText === 'ok' && newestCultureData.statusText === 'ok' && newestLifeData.statusText === 'ok') {
-    topStoriesData = [...newestCultureData.data, ...newestLifeData.data, ...newestSportData.data];
+    topStoriesData.data = [...newestCultureData.data, ...newestLifeData.data, ...newestSportData.data];
+    topStoriesData.loaded = !newestCultureData.loading && !newestLifeData.loading && !newestSportData.loading;
   }
 
   const onShowDropList = () => {
@@ -41,9 +48,13 @@ const Home: FC = () => {
     }
   };
 
+  const navigateArticle = (newsData: TNewsData) => {
+    navigate('/article', { state: newsData });
+  };
+
   return (
     <>
-      { topStoriesData.length === 0 ?
+      { !topStoriesData.loaded ?
         <Loading /> :
         <Container>
           <TopStory>
@@ -58,54 +69,59 @@ const Home: FC = () => {
             </Header>
             <Content>
               <NewsCard
-                key={topStoriesData[0].id}
-                image={topStoriesData[0].thumbnail}
-                title={topStoriesData[0].webTitle}
-                type={topStoriesData[0].sectionId}
-                body={topStoriesData[0].bodyText}
-                onClick={() => { navigateArticle(topStoriesData[0]); }}
+                className="news-card"
+                key={topStoriesData.data[0].id}
+                image={topStoriesData.data[0].thumbnail}
+                title={topStoriesData.data[0].webTitle}
+                type={topStoriesData.data[0].sectionId}
+                body={topStoriesData.data[0].bodyText}
+                onClick={() => { navigateArticle(topStoriesData.data[0]); }}
                 width={540}
                 height={423}
               />
               <div>
                 <NewsCard
-                  key={topStoriesData[4].id}
-                  image={topStoriesData[4].thumbnail}
-                  title={topStoriesData[4].webTitle}
-                  type={topStoriesData[4].sectionId}
-                  body={topStoriesData[4].bodyText}
-                  onClick={() => { navigateArticle(topStoriesData[4]); }}
+                  className="news-card"
+                  key={topStoriesData.data[4].id}
+                  image={topStoriesData.data[4].thumbnail}
+                  title={topStoriesData.data[4].webTitle}
+                  type={topStoriesData.data[4].sectionId}
+                  body={topStoriesData.data[4].bodyText}
+                  onClick={() => { navigateArticle(topStoriesData.data[4]); }}
                   width={255}
                   height={252}
                 />
                 <NewsCard
-                  key={topStoriesData[3].id}
-                  image={topStoriesData[3].thumbnail}
-                  title={topStoriesData[3].webTitle}
-                  type={topStoriesData[3].sectionId}
-                  body={topStoriesData[3].bodyText}
-                  onClick={() => { navigateArticle(topStoriesData[3]); }}
+                  className="news-card"
+                  key={topStoriesData.data[3].id}
+                  image={topStoriesData.data[3].thumbnail}
+                  title={topStoriesData.data[3].webTitle}
+                  type={topStoriesData.data[3].sectionId}
+                  body={topStoriesData.data[3].bodyText}
+                  onClick={() => { navigateArticle(topStoriesData.data[3]); }}
                   width={255}
                   height={252}
                 />
                 <NewsCard
-                  key={topStoriesData[1].id}
-                  image={topStoriesData[1].thumbnail}
-                  title={topStoriesData[1].webTitle}
-                  type={topStoriesData[1].sectionId}
-                  body={topStoriesData[1].bodyText}
-                  onClick={() => { navigateArticle(topStoriesData[1]); }}
+                  className="news-card"
+                  key={topStoriesData.data[1].id}
+                  image={topStoriesData.data[1].thumbnail}
+                  title={topStoriesData.data[1].webTitle}
+                  type={topStoriesData.data[1].sectionId}
+                  body={topStoriesData.data[1].bodyText}
+                  onClick={() => { navigateArticle(topStoriesData.data[1]); }}
                   width={255}
                   height={252}
                   isShownImage={false}
                 />
                 <NewsCard
-                  key={topStoriesData[2].id}
-                  image={topStoriesData[2].thumbnail}
-                  title={topStoriesData[2].webTitle}
-                  type={topStoriesData[2].sectionId}
-                  body={topStoriesData[2].bodyText}
-                  onClick={() => { navigateArticle(topStoriesData[2]); }}
+                  className="news-card"
+                  key={topStoriesData.data[2].id}
+                  image={topStoriesData.data[2].thumbnail}
+                  title={topStoriesData.data[2].webTitle}
+                  type={topStoriesData.data[2].sectionId}
+                  body={topStoriesData.data[2].bodyText}
+                  onClick={() => { navigateArticle(topStoriesData.data[2]); }}
                   width={255}
                   height={252}
                   isShownImage={false}
@@ -113,8 +129,8 @@ const Home: FC = () => {
               </div>
             </Content>
           </TopStory>
-          <SportsBundle data={[topStoriesData[5], topStoriesData[6], topStoriesData[7]]} />
-          <SportsBundle title="Sports" data={[topStoriesData[8], topStoriesData[9], topStoriesData[10]]} />
+          <SportsBundle data={[topStoriesData.data[5], topStoriesData.data[6], topStoriesData.data[7]]} />
+          <SportsBundle title="Sports" data={[topStoriesData.data[8], topStoriesData.data[9], topStoriesData.data[10]]} />
         </Container>
       }
     </>
@@ -122,7 +138,26 @@ const Home: FC = () => {
 }
 
 const Container = styled.div`
-  margin: 0 150px;
+  margin: 0 auto;
+  width: calc(100% - 300px);
+  @media only screen and (min-width: 1440px) {
+    width: 1140px;
+  }
+  @media only screen and (max-width: 1439px) {
+    width: calc(100% - 200px);
+  }
+  @media only screen and (max-width: 1339px) {
+    width: calc(100% - 100px);
+  }
+  @media only screen and (max-width: 1239px) {
+    width: 100%;
+  }
+  @media only screen and (max-width: 577px) {
+    .news-card {
+      width: 350px !important;
+      height: 347px !important;
+    }
+  }
 `;
 
 const TopStory = styled.div`
@@ -133,10 +168,16 @@ const Content = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  & > div {
+  & > div: last-child {
     width: 570px;
     display: flex;
     flex-wrap: wrap;
+    @media only screen and (max-width: 577px) {
+      justify-content: center;
+    }
+  }
+  @media only screen and (max-width: 1139px) {
+    justify-content: center;
   }
 `;
 
@@ -145,6 +186,9 @@ const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 44px 15px 13px;
+  @media only screen and (max-width: 577px) {
+    flex-direction: column;
+  }
 `;
 
 const Title = styled.div`

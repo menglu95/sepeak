@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import logo from '../assets/Logo_White.png';
 
 interface INewsCard {
+  className?: string;
   image?: string;
   isShownImage?: boolean;
   title: string;
@@ -14,6 +15,7 @@ interface INewsCard {
 }
 
 const NewsCard: FC<INewsCard> = ({
+  className = '',
   image = '',
   isShownImage = true,
   title,
@@ -24,7 +26,7 @@ const NewsCard: FC<INewsCard> = ({
   onClick = undefined
 }) => {
   return (
-    <Container src={image} shownImage={isShownImage} width={width} height={height} onClick={onClick}>
+    <Container className={className} src={image} shownImage={isShownImage} width={width} height={height} onClick={onClick}>
       {isShownImage && image === '' && <img src={logo} alt="logo" width={238} height={89} />}
       <Description type={type}>
         <Title>{title}</Title>
@@ -52,6 +54,9 @@ const Container = styled.div < { src: string, shownImage: boolean, width: number
   }
   margin: 17px 15px 17px 15px;
   cursor: pointer;
+  @media only screen and (max-width: 577px) {
+    ${props => props.src !== '' && `background-image: url(${props.src});`}
+  }
 `;
 
 const Description = styled.div<{ type: string }>`
@@ -65,7 +70,7 @@ const Description = styled.div<{ type: string }>`
 `;
 
 const Title = styled.div`
-  width: 98%;
+  width: 92%;
   height: 58px;
   margin: 10px 10px 8px 10px;
   font-family: 'Georgia';
@@ -79,7 +84,7 @@ const Title = styled.div`
 `;
 
 const Content = styled.div`
-  width: 95%;
+  width: 93%;
   height: 43px;
   margin: 0px 14px 15px 9px;
   text-overflow: ellipsis;

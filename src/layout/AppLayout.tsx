@@ -39,7 +39,7 @@ const AppLayout: FC<IAppLayout> = ({ children }) => {
     <Container>
       <Header>
         <div>
-          <Link to='/'><img src={logo} alt="logo" width={142} height={56} /></Link>
+          <Link to='/'><img className="logo" src={logo} alt="logo" width={142} height={56} /></Link>
           <SearchBox
             placeholder='Search all news'
             expanded={extend}
@@ -70,10 +70,23 @@ const Header = styled.div`
   background: var(--primary);
   & > div {
     height: 126px;
-    margin: 0 165px;
+    margin: 0 auto;
+    width: calc(100% - 330px);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media only screen and (min-width: 1440px) {
+      width: 1110px;
+    }
+    @media only screen and (max-width: 775px) {
+      width: calc(100% - 30px);
+    }
+    @media only screen and (max-width: 425px) {
+      .logo {
+        display: none;
+      }
+      justify-content: center;
+    }
   }
 `;
 

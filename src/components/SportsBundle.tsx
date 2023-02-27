@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { navigateArticle, TNewsData } from '../common';
+import { TNewsData } from '../common';
 import { NewsCard } from '../components';
 
 interface ISportsBundle {
@@ -12,6 +13,10 @@ const SportsBundle: FC<ISportsBundle> = ({
   title = '',
   data,
 }) => {
+  const navigate = useNavigate();
+  const navigateArticle = (newsData: TNewsData) => {
+    navigate('/article', { state: newsData });
+  };
   return (
     <Container>
       <Title>
@@ -39,8 +44,11 @@ const Container = styled.div`
   & > div {
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-wrap: wrap;
+    @media only screen and (max-width: 1139px) {
+      justify-content: center;
+    }
   }
 `;
 
@@ -52,8 +60,7 @@ const Title = styled.div`
   line-height: 39px;
   letter-spacing: 0.07px;
   & > div {
-    margin: 15px auto;
-    margin: 25px;
+    margin: 33px 0 13px 14px;
   }
 `;
 
