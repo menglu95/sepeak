@@ -1,21 +1,45 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { TApiResponse, useApiGet } from '../hooks/useApiHook';
 import { TNewsData, EDropOptions } from '../common';
 import { Loading, NewsCard, Dropdown } from '../components';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Search: FC = () => {
+  const [data, setData] = useState<TNewsData[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
   const [showDropList, setShowDropList] = useState<boolean>(false);
   const [orderValue, setOrderValue] = useState<string>(EDropOptions.NEWEST_FIRST);
   const location = useLocation();
   const { query, order } = location.state;
-  const data: TApiResponse = useApiGet(query, 'sport', 15, order);
+
+  const res: TApiResponse = useApiGet(query, 'sport', 2, order, currentPage);
+
+  useEffect(() => {
+    console.log(res);
+    fetchData();
+  }, [res.statusText])
 
   const navigate = useNavigate();
 
   const onShowDropList = () => {
     setShowDropList(!showDropList);
+  };
+
+  const fetchData = () => {
+    console.log('fetchData func');
+    if (res.statusText === 'ok') {
+      setData([...data, ...res.data]);
+      if (currentPage === res.pages) {
+        console.log('all fetched');
+        setHasMore(false);
+        return;
+      } else {
+        setCurrentPage(currentPage + 1);
+      }
+    }
   };
 
   const onChangeOrder = (e: any) => {
@@ -42,31 +66,40 @@ const Search: FC = () => {
 
   return (
     <Container>
-      { data.loading ?
-        <Loading /> :
-        <>
-          <Header>
-            <Title>Search results</Title>
-            <Dropdown
-              onClick={onShowDropList}
-              expand={showDropList}
-              onSelected={(e) => { onChangeOrder(e); }}
-              value={orderValue}
-            />
-          </Header>
-          <Content>
-            {data.data.map((news) =>
+      <>
+        <Header>
+          <Title>Search results</Title>
+          <Dropdown
+            onClick={onShowDropList}
+            expand={showDropList}
+            onSelected={(e) => { onChangeOrder(e); }}
+            value={orderValue}
+          />
+        </Header>
+        <Content>
+          <InfiniteScroll
+            dataLength={data.length}
+            next={fetchData}
+            hasMore={hasMore}
+            loader={<h4>Loading...</h4>}
+            endMessage={
+              <p style={{ textAlign: 'center' }}>
+                <b>Yay! You have seen it all</b>
+              </p>
+            }
+          >
+            {data.map((news, index) =>
               <NewsCard
-                key={news.id}
+                key={index}
                 image={news.thumbnail}
                 title={news.webTitle}
                 type={news.sectionId}
                 body={news.bodyText}
                 onClick={() => { navigateArticle(news); }}
               />)}
-          </Content>
-        </>
-      }
+          </InfiniteScroll>
+        </Content>
+      </>
     </Container>
   )
 }

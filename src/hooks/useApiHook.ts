@@ -20,6 +20,7 @@ export const useApiGet = (
   section: 'sport' | 'news' | 'lifeandstyle' | 'culture',
   n?: number,
   order?: 'newest' | 'oldest' | 'relevance',
+  pageNum?: number,
 ): TApiResponse => {
   const [statusText, setStatusText] = useState<string>('');
   const [startIndex, setStartIndex] = useState<number>(0);
@@ -42,6 +43,7 @@ export const useApiGet = (
         orderBy: order ? order : 'newest',
         showFields: 'headline,thumbnail,body,bodyText',
         showElements: 'all',
+        page: pageNum ? pageNum : 1,
       });
       setStatusText(apiResponse.status);
       setStartIndex(apiResponse.startIndex);
@@ -58,7 +60,7 @@ export const useApiGet = (
 
   useEffect(() => {
     getAPIData();
-  }, [query, order]);
+  }, [query, order, pageNum]);
 
   return { 
     statusText, 
