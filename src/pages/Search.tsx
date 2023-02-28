@@ -43,17 +43,14 @@ const Search: FC = () => {
     setShowDropList(false);
     switch (e.target.value) {
       case EDropOptions.NEWEST_FIRST:
-        // navigate('/search', { state: { query, order: 'newest' } });
         setCurrentPage(1);
         setOrder('newest');
         break;
       case EDropOptions.OLDEST_FIRST:
-        // navigate('/search', { state: { query, order: 'oldest' } });
         setCurrentPage(1);
         setOrder('oldest');
         break;
       case EDropOptions.MOST_POPULAR:
-        // navigate('/search', { state: { query, order: 'relevance' } });
         setCurrentPage(1);
         setOrder('relevance');
         break;
