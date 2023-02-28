@@ -12,6 +12,7 @@ interface INewsCard {
   height?: number;
   type: string;
   onClick?: () => void;
+  dataTestId?: string;
 }
 
 const NewsCard: FC<INewsCard> = ({
@@ -23,14 +24,15 @@ const NewsCard: FC<INewsCard> = ({
   width = 350,
   height = 347,
   type,
-  onClick = undefined
+  onClick = undefined,
+  dataTestId = 'news-card'
 }) => {
   return (
-    <Container className={className} src={image} shownImage={isShownImage} width={width} height={height} onClick={onClick}>
-      {isShownImage && image === '' && <img src={logo} alt="logo" width={238} height={89} />}
+    <Container data-testid={dataTestId} className={className} src={image} shownImage={isShownImage} width={width} height={height} onClick={onClick}>
+      {isShownImage && image === '' && <img data-testid="logo-img" src={logo} alt="logo" width={238} height={89} />}
       <Description type={type}>
-        <Title>{title}</Title>
-        <Content>{body}</Content>
+        <Title data-testid="card-title">{title}</Title>
+        <Content data-testid="card-content">{body}</Content>
       </Description>
     </Container>
   )

@@ -37,10 +37,11 @@ const AppLayout: FC<IAppLayout> = ({ children }) => {
 
   return (
     <Container>
-      <Header>
+      <Header data-testid="header">
         <div>
-          <Link to='/'><img className="logo" src={logo} alt="logo" width={142} height={56} /></Link>
+          <Link to='/'><img data-testid="logo-img" className="logo" src={logo} alt="logo" width={142} height={56} /></Link>
           <SearchBox
+            dataTestId="search-box"
             placeholder='Search all news'
             expanded={extend}
             onClick={onExtendSearchbar}
@@ -51,10 +52,10 @@ const AppLayout: FC<IAppLayout> = ({ children }) => {
           />
         </div>
       </Header>
-      <Main>
+      <Main data-testid="main">
         {children}
       </Main>
-      <Footer></Footer>
+      <Footer data-testid="footer"></Footer>
     </Container>
   )
 }

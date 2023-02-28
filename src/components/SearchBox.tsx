@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import searchIcon from '../assets/search-icon@2x.svg';
+import searchIcon from '../assets/search.svg';
 
 interface ISearchBox {
   placeholder: string;
@@ -10,6 +10,7 @@ interface ISearchBox {
   onChange?: (e: any) => void;
   onSubmit?: (e: any) => void;
   onBlur?: () => void;
+  dataTestId?: string;
 }
 
 const SearchBox: FC<ISearchBox> = ({
@@ -20,11 +21,25 @@ const SearchBox: FC<ISearchBox> = ({
   onChange = undefined,
   onSubmit = undefined,
   onBlur = undefined,
+  dataTestId = 'search-box',
 }) => {
   return (
-    <Container tabIndex={0} expand={expanded} onClick={onClick} onSubmit={onSubmit} >
-      <input autoFocus type='text' placeholder={placeholder} value={value} onChange={onChange} onBlur={onBlur} />
-      <img src={searchIcon} alt="search icon" />
+    <Container
+      data-testid={dataTestId}
+      tabIndex={0}
+      expand={expanded}
+      onClick={onClick}
+      onSubmit={onSubmit}
+    >
+      <input
+        data-testid="search-input"
+        autoFocus type='text'
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+      />
+      <img data-testid="search-icon" src={searchIcon} alt="search icon" />
     </Container>
   )
 }
