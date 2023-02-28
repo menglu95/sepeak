@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { TApiResponse, useApiGet } from '../hooks/useApiHook';
+import { useApiGet, TApiResponse } from '../hooks/useApiHook';
 import { TNewsData, EDropOptions } from '../common';
 import { Loading, NewsCard, Dropdown } from '../components';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -15,31 +15,21 @@ const Search: FC = () => {
   const location = useLocation();
   const { query, order } = location.state;
 
-  const res: TApiResponse = useApiGet(query, 'sport', 2, order, currentPage);
+  const res: TApiResponse = useApiGet(query, 'sport', 5, order, currentPage);
 
   useEffect(() => {
-    console.log(res);
-    fetchData();
-  }, [res.statusText])
+    setCurrentPage(1);
+    setData([...res.data]);
+  }, [query, order])
+
+  useEffect(() => {
+    setData([...data, ...res.data]);
+  }, [res.currentPage]);
 
   const navigate = useNavigate();
 
   const onShowDropList = () => {
     setShowDropList(!showDropList);
-  };
-
-  const fetchData = () => {
-    console.log('fetchData func');
-    if (res.statusText === 'ok') {
-      setData([...data, ...res.data]);
-      if (currentPage === res.pages) {
-        console.log('all fetched');
-        setHasMore(false);
-        return;
-      } else {
-        setCurrentPage(currentPage + 1);
-      }
-    }
   };
 
   const onChangeOrder = (e: any) => {
@@ -64,6 +54,14 @@ const Search: FC = () => {
     navigate('/article', { state: newsData });
   };
 
+  const onNextPage = () => {
+    if (currentPage === res.pages) {
+      setHasMore(false);
+    } else {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
     <Container>
       <>
@@ -76,18 +74,15 @@ const Search: FC = () => {
             value={orderValue}
           />
         </Header>
-        <Content>
-          <InfiniteScroll
-            dataLength={data.length}
-            next={fetchData}
-            hasMore={hasMore}
-            loader={<h4>Loading...</h4>}
-            endMessage={
-              <p style={{ textAlign: 'center' }}>
-                <b>Yay! You have seen it all</b>
-              </p>
-            }
-          >
+
+        <InfiniteScroll
+          height={window.innerHeight - 418}
+          dataLength={data.length}
+          next={onNextPage}
+          hasMore={hasMore}
+          loader={<Loading />}
+        >
+          <Content>
             {data.map((news, index) =>
               <NewsCard
                 key={index}
@@ -97,8 +92,8 @@ const Search: FC = () => {
                 body={news.bodyText}
                 onClick={() => { navigateArticle(news); }}
               />)}
-          </InfiniteScroll>
-        </Content>
+          </Content>
+        </InfiniteScroll>
       </>
     </Container>
   )
@@ -108,7 +103,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 44px 15px 38px;
+  margin: 44px 15px 21px;
   @media only screen and (max-width: 1060px) {
     flex-direction: column;
     margin: 44px 15px 18px;
