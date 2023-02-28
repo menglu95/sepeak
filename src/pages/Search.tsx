@@ -20,7 +20,7 @@ const Search: FC = () => {
   useEffect(() => {
     setCurrentPage(1);
     setData([...res.data]);
-  }, [query, order])
+  }, [query, order]);
 
   useEffect(() => {
     setData([...data, ...res.data]);
