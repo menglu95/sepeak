@@ -15,7 +15,7 @@ const Search: FC = () => {
   const location = useLocation();
   const { query, order } = location.state;
 
-  const res: TApiResponse = useApiGet(query, 'sport', 5, order, currentPage);
+  const res: TApiResponse = useApiGet(query, 'sport', 15, order, currentPage);
 
   useEffect(() => {
     setCurrentPage(1);
