@@ -19,12 +19,12 @@ const Dropdown: FC<IDropdown> = ({
   return (
     <Container onClick={onClick}>
       <div>
-        <input type="text" readOnly value={value} />
-        <img src={dropIcon} alt="dropdown icon" />
+        <input data-testid="filled-input" type="text" readOnly value={value} />
+        <img data-testid="drop-icon" src={dropIcon} alt="dropdown icon" />
       </div>
       <Options expanded={expand}>
-        <input type="text" value={EDropOptions.NEWEST_FIRST} readOnly onClick={onSelected} />
-        <input type="text" value={EDropOptions.OLDEST_FIRST} readOnly onClick={onSelected} />
+        <input data-testid="newest-option" type="text" value={EDropOptions.NEWEST_FIRST} readOnly onClick={onSelected} />
+        <input data-testid="oldest-option" type="text" value={EDropOptions.OLDEST_FIRST} readOnly onClick={onSelected} />
       </Options>
     </Container>
   )

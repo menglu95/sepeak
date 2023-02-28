@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Loading: FC = () => {
   return (
     <Container>
-      <LoadingSpinner />
+      <LoadingSpinner data-testid="loading-spinner" />
     </Container>
   )
 }

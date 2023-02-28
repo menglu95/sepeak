@@ -1,16 +1,30 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { TApiResponse, useApiGet } from '../hooks/useApiHook';
+import { useApiGet, TApiResponse } from '../hooks/useApiHook';
 import { TNewsData, EDropOptions } from '../common';
 import { Loading, NewsCard, Dropdown } from '../components';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Search: FC = () => {
+  const [data, setData] = useState<TNewsData[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
   const [showDropList, setShowDropList] = useState<boolean>(false);
   const [orderValue, setOrderValue] = useState<string>(EDropOptions.NEWEST_FIRST);
   const location = useLocation();
   const { query, order } = location.state;
-  const data: TApiResponse = useApiGet(query, 'sport', 15, order);
+
+  const res: TApiResponse = useApiGet(query, 'sport', 5, order, currentPage);
+
+  useEffect(() => {
+    setCurrentPage(1);
+    setData([...res.data]);
+  }, [query, order])
+
+  useEffect(() => {
+    setData([...data, ...res.data]);
+  }, [res.currentPage]);
 
   const navigate = useNavigate();
 
@@ -40,24 +54,38 @@ const Search: FC = () => {
     navigate('/article', { state: newsData });
   };
 
+  const onNextPage = () => {
+    if (currentPage === res.pages) {
+      setHasMore(false);
+    } else {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
     <Container>
-      { data.loading ?
-        <Loading /> :
-        <>
-          <Header>
-            <Title>Search results</Title>
-            <Dropdown
-              onClick={onShowDropList}
-              expand={showDropList}
-              onSelected={(e) => { onChangeOrder(e); }}
-              value={orderValue}
-            />
-          </Header>
+      <>
+        <Header>
+          <Title>Search results</Title>
+          <Dropdown
+            onClick={onShowDropList}
+            expand={showDropList}
+            onSelected={(e) => { onChangeOrder(e); }}
+            value={orderValue}
+          />
+        </Header>
+
+        <InfiniteScroll
+          height={window.innerHeight - 418}
+          dataLength={data.length}
+          next={onNextPage}
+          hasMore={hasMore}
+          loader={<Loading />}
+        >
           <Content>
-            {data.data.map((news) =>
+            {data.map((news, index) =>
               <NewsCard
-                key={news.id}
+                key={index}
                 image={news.thumbnail}
                 title={news.webTitle}
                 type={news.sectionId}
@@ -65,8 +93,8 @@ const Search: FC = () => {
                 onClick={() => { navigateArticle(news); }}
               />)}
           </Content>
-        </>
-      }
+        </InfiniteScroll>
+      </>
     </Container>
   )
 }
@@ -75,7 +103,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 44px 15px 38px;
+  margin: 44px 15px 21px;
   @media only screen and (max-width: 1060px) {
     flex-direction: column;
     margin: 44px 15px 18px;

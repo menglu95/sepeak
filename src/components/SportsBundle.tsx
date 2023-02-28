@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { TNewsData } from '../common';
 import { NewsCard } from '../components';
 
-interface ISportsBundle {
+export interface ISportsBundle {
   title?: string;
   data: TNewsData[];
 }
@@ -19,7 +19,7 @@ const SportsBundle: FC<ISportsBundle> = ({
   };
   return (
     <Container>
-      <Title>
+      <Title data-testid="title">
         <div>
           {title}
         </div>
@@ -27,6 +27,7 @@ const SportsBundle: FC<ISportsBundle> = ({
       <div>
         {data.map((news) =>
           <NewsCard
+            dataTestId="news-card"
             key={news.id}
             image={news.thumbnail}
             title={news.webTitle}
