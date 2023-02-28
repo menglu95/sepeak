@@ -8,23 +8,29 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Search: FC = () => {
   const [data, setData] = useState<TNewsData[]>([]);
+  const [order, setOrder] = useState<any>('newest');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [showDropList, setShowDropList] = useState<boolean>(false);
   const [orderValue, setOrderValue] = useState<string>(EDropOptions.NEWEST_FIRST);
   const location = useLocation();
-  const { query, order } = location.state;
+  const { query } = location.state;
 
   const res: TApiResponse = useApiGet(query, 'sport', 15, order, currentPage);
 
   useEffect(() => {
-    setCurrentPage(1);
-    setData([...res.data]);
+    console.log('useEffect-1', res);
+    setData([]);
   }, [query, order]);
 
   useEffect(() => {
-    setData([...data, ...res.data]);
-  }, [res.currentPage]);
+    console.log('useEffect-2', res);
+    if (res.currentPage === 1) {
+      setData(res.data);
+    } else {
+      setData([...data, ...res.data]);
+    }
+  }, [res.data]);
 
   const navigate = useNavigate();
 
@@ -37,13 +43,19 @@ const Search: FC = () => {
     setShowDropList(false);
     switch (e.target.value) {
       case EDropOptions.NEWEST_FIRST:
-        navigate('/search', { state: { query, order: 'newest' } });
+        // navigate('/search', { state: { query, order: 'newest' } });
+        setCurrentPage(1);
+        setOrder('newest');
         break;
       case EDropOptions.OLDEST_FIRST:
-        navigate('/search', { state: { query, order: 'oldest' } });
+        // navigate('/search', { state: { query, order: 'oldest' } });
+        setCurrentPage(1);
+        setOrder('oldest');
         break;
       case EDropOptions.MOST_POPULAR:
-        navigate('/search', { state: { query, order: 'relevance' } });
+        // navigate('/search', { state: { query, order: 'relevance' } });
+        setCurrentPage(1);
+        setOrder('relevance');
         break;
       default:
         break;
