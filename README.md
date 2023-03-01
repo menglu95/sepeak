@@ -49,6 +49,3 @@ yarn test:coverage
 
 ![image](https://user-images.githubusercontent.com/64152971/222026760-cddcc8d5-9e02-4495-9bf5-8c04670bfe24.png)
 
-### `Demo`
-
-
