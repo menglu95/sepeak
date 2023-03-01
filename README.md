@@ -1,46 +1,51 @@
-# Getting Started with Create React App
+# Sevenpeaks Frontend test project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is the test project for the frontend role of Mike.
 
-## Available Scripts
+## `What you need`
 
-In the project directory, you can run:
+Uncompressed the source file and run the following command.
 
-### `yarn start`
+```
+yarn install
+```
+or
+```
+yarn
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## `How to run`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Run the following command after the above one.
 
-### `yarn test`
+```
+yarn start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Then, you can test this project on your [localhost:3000](http://localhost:3000/)
 
-### `yarn build`
+## `Run test`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+You can run the following command for the unit tests whether they are passed correctly.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+yarn test
+```
+### `Test coverage`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+You can make sure of whether all tests' coverage is over 80% by using the following command.
 
-### `yarn eject`
+```
+yarn test:coverage
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## `Result`
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* For the mobile responsive, I implemented the responsive depending on my idea because there is no Figma design for them.
+* For the unit test, I just implemented the test codes with over 80% of coverage for the only components so that let me know what I had already experienced in Unit Tests.
+(In addition, I know Cypress as well.)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### `Test coverage result`
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### `Demo`
