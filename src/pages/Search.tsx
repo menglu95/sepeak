@@ -7,29 +7,36 @@ import { Loading, NewsCard, Dropdown } from '../components';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Search: FC = () => {
+
   const [data, setData] = useState<TNewsData[]>([]);
   const [order, setOrder] = useState<any>('newest');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [showDropList, setShowDropList] = useState<boolean>(false);
   const [orderValue, setOrderValue] = useState<string>(EDropOptions.NEWEST_FIRST);
+
   const location = useLocation();
   const { query } = location.state;
+
+  useEffect(() => {
+    setCurrentPage(1);
+    setData([]);
+  }, [order]);
 
   const res: TApiResponse = useApiGet(query, 'sport', 15, order, currentPage);
 
   useEffect(() => {
-    console.log('useEffect-1', res);
     setData([]);
-  }, [query, order]);
+    setCurrentPage(1);
+  }, [location]);
 
   useEffect(() => {
-    console.log('useEffect-2', res);
     if (res.currentPage === 1) {
       setData(res.data);
     } else {
       setData([...data, ...res.data]);
     }
+    setHasMore(true);
   }, [res.data]);
 
   const navigate = useNavigate();
@@ -45,14 +52,17 @@ const Search: FC = () => {
       case EDropOptions.NEWEST_FIRST:
         setCurrentPage(1);
         setOrder('newest');
+        setHasMore(true);
         break;
       case EDropOptions.OLDEST_FIRST:
         setCurrentPage(1);
         setOrder('oldest');
+        setHasMore(true);
         break;
       case EDropOptions.MOST_POPULAR:
         setCurrentPage(1);
         setOrder('relevance');
+        setHasMore(true);
         break;
       default:
         break;
@@ -64,7 +74,7 @@ const Search: FC = () => {
   };
 
   const onNextPage = () => {
-    if (currentPage === res.pages) {
+    if (currentPage >= res.pages) {
       setHasMore(false);
     } else {
       setCurrentPage(currentPage + 1);
@@ -83,7 +93,6 @@ const Search: FC = () => {
             value={orderValue}
           />
         </Header>
-
         <InfiniteScroll
           height={window.innerHeight - 418}
           dataLength={data.length}
